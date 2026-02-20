@@ -1,0 +1,8 @@
+# MCP config contains API keys - never commit
+.mcp.json
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
