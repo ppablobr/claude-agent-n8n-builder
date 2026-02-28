@@ -239,6 +239,35 @@ Este arquivo controla as permissoes automaticas e os servidores MCP habilitados 
 
 ---
 
+## 🔐 Configuracoes de permissao
+
+O projeto inclui `.vscode/settings.json` que permite ao Claude Code executar ferramentas automaticamente sem solicitar aprovacao:
+
+```json
+{
+    "claudeCode.allowDangerouslySkipPermissions": true
+}
+```
+
+Esta configuracao acelera o desenvolvimento ao eliminar prompts de confirmacao, mas remove uma camada de seguranca.
+
+> [!WARNING]
+> Esta configuracao desabilita o sistema de aprovacao de permissoes. Use apenas em ambientes de desenvolvimento confiaveis. Se preferir aprovar cada acao manualmente, remova este arquivo ou altere o valor para `false`.
+
+### Quando usar
+
+- ✅ **Ambiente de desenvolvimento local** onde voce confia no Claude Code
+- ✅ **Workflows repetitivos** que exigem muitas chamadas de ferramentas MCP
+- ✅ **Prototipagem rapida** onde a velocidade e mais importante
+
+### Quando desabilitar
+
+- ❌ **Ambientes compartilhados** ou maquinas publicas
+- ❌ **Projetos em producao** com dados sensiveis
+- ❌ **Primeira vez usando o projeto** — aprove manualmente ate entender o comportamento
+
+---
+
 ## ✅ Boas praticas
 
 - **Nunca faca commit do `.mcp.json`** — ele ja esta no `.gitignore`, mas fique atento
