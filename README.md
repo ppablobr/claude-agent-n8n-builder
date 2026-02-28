@@ -46,12 +46,9 @@ claude auth
 git clone <URL_DO_REPOSITORIO>
 cd n8n-builder
 
-# 2. Copie o template de configuracao
-cp .mcp.json.example .mcp.json
+# 2. Crie o arquivo .mcp.json com suas credenciais (veja secao abaixo)
 
-# 3. Edite o .mcp.json com suas credenciais (veja secao abaixo)
-
-# 4. Abra o projeto com Claude Code
+# 3. Abra o projeto com Claude Code
 claude
 ```
 
@@ -66,7 +63,7 @@ Ao abrir, peca ao Claude para verificar a conexao:
 
 ## ⚙️ Configuracao do .mcp.json
 
-Apos copiar o template, edite o arquivo `.mcp.json` na raiz do projeto:
+Crie o arquivo `.mcp.json` na raiz do projeto com o seguinte conteudo:
 
 ```json
 {
@@ -143,7 +140,7 @@ O projeto inclui **7 skills especializadas** que ensinam o Claude a trabalhar co
 | 🐍 **Code Python** | Limitacoes do Python no n8n (sem bibliotecas externas) e quando usar JS no lugar |
 
 > [!NOTE]
-> As skills ativam automaticamente conforme o contexto da conversa — voce nao precisa fazer nada.
+> As skills ficam em `.claude/skills/` e ativam automaticamente conforme o contexto da conversa — voce nao precisa fazer nada.
 
 ---
 
@@ -191,19 +188,54 @@ Apos o setup, basta abrir o Claude Code na pasta do projeto e descrever o que vo
 
 ```
 n8n-builder/
-├── 📄 .mcp.json.example    # Template de configuracao (copie para .mcp.json)
-├── 🔒 .mcp.json            # Sua configuracao local (ignorado pelo git)
-├── 📄 .gitignore           # Ignora .mcp.json e node_modules
-├── 📘 CLAUDE.md            # Instrucoes e padroes de qualidade para o Claude
-├── 📖 README.md            # Este arquivo
-├── 📂 .claude/             # Configuracoes do Claude Code
-│   └── settings.local.json
-└── 📂 n8n-skills/          # 7 skills especializadas
-    ├── skills/             # Definicoes das skills
-    ├── evaluations/        # 32 cenarios de teste
-    ├── docs/               # Documentacao detalhada
-    └── dist/               # Pacotes de distribuicao
+├── 🔒 .mcp.json              # Sua configuracao local (ignorado pelo git)
+├── 📄 .gitignore              # Ignora .mcp.json e node_modules
+├── 📘 CLAUDE.md               # Instrucoes e padroes de qualidade para o Claude
+├── 📖 README.md               # Este arquivo
+└── 📂 .claude/                # Configuracoes do Claude Code
+    ├── settings.local.json    # Permissoes e configuracoes locais
+    ├── 📂 skills/             # 7 skills especializadas
+    └── 📂 evaluations/        # 32 cenarios de teste
 ```
+
+### Exemplo de `.claude/settings.local.json`
+
+Este arquivo controla as permissoes automaticas e os servidores MCP habilitados no projeto:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(gh api:*)",
+      "Bash(gh repo view:*)",
+      "Bash(npx --version:*)",
+      "Bash(npx n8n-mcp:*)",
+      "Bash(git clone:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git fetch:*)",
+      "Bash(git commit:*)",
+      "mcp__n8n-mcp__get_node",
+      "mcp__n8n-mcp__n8n_create_workflow",
+      "mcp__n8n-mcp__n8n_validate_workflow",
+      "mcp__n8n-mcp__n8n_update_partial_workflow",
+      "mcp__n8n-mcp__n8n_get_workflow",
+      "mcp__n8n-mcp__n8n_test_workflow",
+      "mcp__n8n-mcp__tools_documentation",
+      "mcp__github__create_repository"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "n8n-mcp"
+  ]
+}
+```
+
+> [!TIP]
+> Novas permissoes serao solicitadas conforme voce usa o Claude Code. Voce pode aprovar uma a uma ou adicionar diretamente neste arquivo.
 
 ---
 
