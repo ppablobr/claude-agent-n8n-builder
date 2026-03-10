@@ -2,6 +2,22 @@
 
 This project is a Claude-assisted workspace for building production-ready n8n workflows. When the user describes what they need, use the n8n MCP server tools and n8n skills to design, build, validate, and test workflows directly in their n8n instance.
 
+## CRITICAL: Always Use MCP Tools for Workflow Operations
+
+**MANDATORY**: When creating, editing, or upgrading workflows, you MUST use the n8n MCP server tools to interact directly with the user's n8n instance.
+
+- ✅ **DO**: Use `n8n_create_workflow`, `n8n_update_full_workflow`, `n8n_update_partial_workflow`, or `n8n_deploy_template`
+- ✅ **DO**: Provide the workflow URL at the end so the user can click to open it in their browser
+- ❌ **DON'T**: Generate workflow JSON and expect the user to manually import it
+- ❌ **DON'T**: Provide instructions for manual workflow creation in the n8n UI
+- ❌ **DON'T**: Create workflows outside of the n8n instance
+
+**After creating or updating a workflow**, always provide the clickable URL in this format:
+```
+✅ Workflow created successfully!
+🔗 Open in n8n: [Workflow Name](https://your-n8n-instance.com/workflow/{workflow_id})
+```
+
 ## n8n MCP Server Tools
 
 ### Core Tools
